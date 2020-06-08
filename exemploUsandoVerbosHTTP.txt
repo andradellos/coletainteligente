@@ -1,0 +1,56 @@
+import express from 'express';
+const app = express();
+app.use(express.json()); //Usando para o node conseguir receber um json enviado no request.body
+
+//Verbos HTTP
+//GET Buscar informaçõa
+//POST Criar Informação
+//PUT : Atualizar informação
+//DELETE: Apagar Informação
+
+//================Tipos de parâmetros==================
+// request.params.id = '/users/:id' => Onde  id passado pela URL 99% obrigatório
+// request.query.searsh = /users?searsh=Ema => Onde searsh passado pela URL, não é obrigatório.
+// request.body = recupera o objeto enviado geralmente usado para Inser,update...
+
+const user = [
+    'Emanuel',
+    'Robson',
+    'Daniel'
+]
+
+app.get('/users',(request, response) =>{
+
+   const searchs = String(request.query.searsh);
+   const filteredUsers = user.filter((user)=> user.includes(searchs));
+
+   console.log(filteredUsers);
+
+   return response.json (filteredUsers.length > 0 ? filteredUsers : user);
+})
+
+app.get('/users/:id',(request, response)=>{
+
+    const idUser = Number(request.params.id) ;
+    return response.json(user[idUser]);
+})
+
+app.post('/users', (request, response) => {
+
+const r_user = request.body;
+
+    const user = {
+        name: r_user.name,
+        email: r_user.email
+    };
+
+    return response.json(user);
+
+})
+
+function init(){
+    console.log('Rodando server Porta 3333');
+}
+init();
+
+app.listen(3333);

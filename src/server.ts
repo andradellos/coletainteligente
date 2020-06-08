@@ -1,15 +1,14 @@
-import express from 'express';
+import Express from 'express';
+const app = Express();
+app.use(Express.json()); //Usando para o node conseguir receber um json enviado no request.body
 
-const app = express();
+import routes from './../routes';
+app.use(routes);
 
-app.get('/users',(request, response) =>{
-    console.log('Rodando');
-    
-    response.json ([
-        'Emanuel',
-        'Robson',
-        'Daniel'
-    ]);
-})
+
+function init(){
+    console.log('Rodando server Porta 3333');
+}
+init();
 
 app.listen(3333);
